@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:clima_app/services/location.dart';
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -7,8 +7,6 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  // had to add the forceAndroidLocationManager property here to make it work on the Android Emulator
-
   @override
   void initState() {
     super.initState();
@@ -16,11 +14,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   void getLocation() async {
-    Position position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.low,
-      forceAndroidLocationManager: true,
-    );
-    print(position);
+    Location location = Location();
+    await location.getCurrentLocation();
   }
 
   @override
