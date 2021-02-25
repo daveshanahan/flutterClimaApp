@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:clima_app/services/location.dart';
 import 'package:clima_app/services/networking.dart';
 import 'package:clima_app/utilities/constants.dart';
+import 'package:clima_app/screens/location_screen.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -33,12 +35,30 @@ class _LoadingScreenState extends State<LoadingScreen> {
     NetworkHelper networkHelper = NetworkHelper(
         'https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey');
 
-    // store the parsed req.body object that is returned as a variable to use later
+    // store the parsed req.body object that is returned as a variable to use in the location screen
     var weatherData = networkHelper.getData();
+
+    // use Navigator to send the weatherData to the location screen
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return LocationScreen();
+        },
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: Center(
+        // adding spinner while user waits
+        child: SpinKitDoubleBounce(
+          color: Colors.white,
+          size: 100.0,
+        ),
+      ),
+    );
   }
 }
