@@ -12,9 +12,6 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  double latitude;
-  double longitude;
-
   @override
   void initState() {
     super.initState();
@@ -27,23 +24,21 @@ class _LoadingScreenState extends State<LoadingScreen> {
     Location location = Location();
     await location.getCurrentLocation();
 
-    // assign the lat and long that come back from the method to the lat and long variables
-    latitude = location.latitude;
-    longitude = location.longitude;
-
+    // instead of having to created new variables to pass into the API url, we can use the location object directly
     // initialise new networkHelper object and pass in the URL
     NetworkHelper networkHelper = NetworkHelper(
-        'https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey');
+        'https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=$apiKey&units=metric');
 
     // store the parsed req.body object that is returned as a variable to use in the location screen
-    var weatherData = networkHelper.getData();
+    // you have to mark this await or else the data will return null on the location screen
+    var weatherData = await networkHelper.getData();
 
     // use Navigator to send the weatherData to the location screen
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) {
-          return LocationScreen();
+          return LocationScreen(locationWeather: weatherData);
         },
       ),
     );
