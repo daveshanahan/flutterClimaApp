@@ -11,7 +11,7 @@ class WeatherModel {
     // instead of having to created new variables to pass into the API url, we can use the location object directly
     // initialise new networkHelper object and pass in the URL
     NetworkHelper networkHelper = NetworkHelper(
-        '$openWeatherMapUrl?lat=${location.latitude}&lon=${location.longitude}&appid=$apiKey&units=metric');
+        '$kOpenWeatherMapUrl?lat=${location.latitude}&lon=${location.longitude}&appid=$kApiKey&units=metric');
 
     // store the parsed req.body object that is returned as a variable to use in the location screen
     // you have to mark this await or else the data will return null on the location screen
